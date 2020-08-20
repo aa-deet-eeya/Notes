@@ -17,7 +17,7 @@ mongoose.connect(process.env.MONGO_URI, {
 
 
 const app = express()
-const PORT = process.env.PORT || 3000 
+const PORT = process.env.PORT || 8000 
 const notes = require('./routes/api/notes')
 app.use(express.urlencoded({extended: false}))
 app.use(express.json())
