@@ -1,4 +1,7 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { getNotes } from '../actions/noteActions'
+import PropTypes from 'prop-types'
 import {
     Container ,
     ListGroup ,
@@ -12,7 +15,7 @@ import {
 } from 'react-transition-group'
 
 class List extends React.Component {
-    constructor(props) {
+    /*constructor(props) {
         super(props)
 
         this.state = {
@@ -30,6 +33,10 @@ class List extends React.Component {
                 }
             ] ,
         }
+    }*/
+
+    componentDidMount() {
+        this.props.getNotes();
     }
 
     handleNote = ()=> {
@@ -53,14 +60,15 @@ class List extends React.Component {
     }
 
     render() {
-        const { NotesList } = this.state
+        console.log({state : this.state , pro : this.props , this : this })
+        const { notes } = this.props.note
         return (
             <>
                 <Container>
                     <Button color="dark" onClick={this.handleNote}>Add Note</Button>
                     <ListGroup>
                         <TransitionGroup className="notes-list">
-                            {NotesList.map((note)=>{
+                            {notes.map((note)=>{
                                 return <CSSTransition key={note.id} timeout={500} classNames="fade">
                                     <ListGroupItem>
                                         <h1>{note.Title}</h1>
@@ -83,4 +91,13 @@ class List extends React.Component {
     }
 }
 
-export default List
+List.propTypes = {
+    getNotes : PropTypes.func.isRequired ,
+    notes : PropTypes.object.isRequired
+}
+
+const mapStateToProps = (state)=>({
+    notes : state.notes
+})
+
+export default connect(mapStateToProps, { getNotes }) (List)
