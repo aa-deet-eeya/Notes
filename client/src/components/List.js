@@ -1,7 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { getNotes } from '../actions/noteActions'
-import PropTypes from 'prop-types'
 import {
     Container ,
     ListGroup ,
@@ -15,11 +12,11 @@ import {
 } from 'react-transition-group'
 
 class List extends React.Component {
-    /*constructor(props) {
+    constructor(props) {
         super(props)
 
         this.state = {
-            NotesList : [
+            notes : [
                 {
                     Title : "something" ,
                     date : Date.now ,
@@ -33,21 +30,17 @@ class List extends React.Component {
                 }
             ] ,
         }
-    }*/
-
-    componentDidMount() {
-        this.props.getNotes();
     }
 
     handleNote = ()=> {
         const note = prompt('Enter the Note') ;
         if(note) {
             this.setState(prevState=>({
-                NotesList : [...prevState.NotesList, { 
+                notes : [...prevState.notes, { 
                     Title : "something3" ,
                     date : Date.now ,
                     Note : note ,
-                    id : prevState.NotesList.length + 1
+                    id : prevState.notes.length + 1
                 }]
             }))
         }
@@ -55,13 +48,12 @@ class List extends React.Component {
 
     onDeleteNote = (id)=>{
         this.setState(prevState =>{
-            return {NotesList : prevState.NotesList.filter(note=> note.id !== id)}
+            return {notes : prevState.notes.filter(note=> note.id !== id)}
         })
     }
 
     render() {
-        console.log({state : this.state , pro : this.props , this : this })
-        const { notes } = this.props.note
+        const { notes } = this.state
         return (
             <>
                 <Container>
@@ -91,13 +83,4 @@ class List extends React.Component {
     }
 }
 
-List.propTypes = {
-    getNotes : PropTypes.func.isRequired ,
-    notes : PropTypes.object.isRequired
-}
-
-const mapStateToProps = (state)=>({
-    notes : state.notes
-})
-
-export default connect(mapStateToProps, { getNotes }) (List)
+export default List
