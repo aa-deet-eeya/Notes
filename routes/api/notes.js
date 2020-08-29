@@ -5,6 +5,7 @@ const Notes = require('../../models/schema')
 
 router.get('/' , (req,res, next)=>{
   Notes.find()
+    .select('_id date note title')
     .sort({date : -1})
     .then(notes=>{
         res.json(notes)
@@ -12,7 +13,8 @@ router.get('/' , (req,res, next)=>{
 })
 router.post('/', (req, res, next)=>{
     const newNote = new Notes({
-        note : req.body.note 
+        title : req.body.title ,
+        note : req.body.note ,
     })
 
     newNote
