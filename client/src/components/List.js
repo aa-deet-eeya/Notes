@@ -27,20 +27,20 @@ class List extends React.Component {
     
   };
 
-  componentDidUpdate = (prev) => {
-    if(prev !== this.state)
-    axios.get("/api/notes").then((res) => {
-      console.log(res)
-      this.setState(() => {
-        return {
-          notes: res.data,
-          loading: true,
-        };
-      });
-      console.log(this.state.notes)
-    });
+  // componentDidUpdate = (prev) => {
+  //   if(prev !== this.state)
+  //   axios.get("/api/notes").then((res) => {
+  //     console.log(res)
+  //     this.setState(() => {
+  //       return {
+  //         notes: res.data,
+  //         loading: true,
+  //       };
+  //     });
+  //     console.log(this.state.notes)
+  //   });
     
-  };
+  // };
 
   handleNote = () => {
     const note = prompt("Enter the Note");
