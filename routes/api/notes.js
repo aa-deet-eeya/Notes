@@ -1,10 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const Notes = require("../../models/schema");
+const auth = require("../middleware/auth");
 
 // @route GET api/notes/
 // @route POST api/notes/
 // @access Public
+
 router.get("/", (req, res, next) => {
   Notes.find()
     .select("_id date note title")
@@ -13,6 +15,7 @@ router.get("/", (req, res, next) => {
       res.json(notes);
     });
 });
+
 router.post("/", (req, res, next) => {
   const newNote = new Notes({
     title: req.body.title,
@@ -34,6 +37,16 @@ router.post("/", (req, res, next) => {
         err,
       });
     });
+});
+
+router.delete("/:id", (req, res, next) => {
+  Notes.findById(req.params.id)
+    .then((note) =>
+      note.remove().then(() => {
+        res.json({ success: true });
+      })
+    )
+    .catch((err) => res.status(404).json({ success: false }));
 });
 
 module.exports = router;

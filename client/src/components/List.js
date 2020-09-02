@@ -15,6 +15,22 @@ class List extends React.Component {
 
   componentDidMount = () => {
     axios.get("/api/notes").then((res) => {
+      console.log(res)
+      this.setState(() => {
+        return {
+          notes: res.data,
+          loading: true,
+        };
+      });
+      console.log(this.state.notes)
+    });
+    
+  };
+
+  componentDidUpdate = (prev) => {
+    if(prev !== this.state)
+    axios.get("/api/notes").then((res) => {
+      console.log(res)
       this.setState(() => {
         return {
           notes: res.data,
@@ -49,9 +65,16 @@ class List extends React.Component {
   };
 
   onDeleteNote = (id) => {
-    this.setState((prevState) => {
-      return { notes: prevState.notes.filter((note) => note._id !== id) };
-    });
+    console.log(id.toString())
+    axios.delete(`/api/notes/${id.toString()}`)
+    .then(({data})=>{
+      console.log(data)
+    }).catch((err)=>{
+      console.log({err})
+    })
+    // this.setState((prevState) => {
+    //   return { notes: prevState.notes.filter((note) => note._id !== id) };
+    // });
   };
 
   render() {
